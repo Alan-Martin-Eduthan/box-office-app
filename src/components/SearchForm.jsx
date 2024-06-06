@@ -1,27 +1,21 @@
-import { useState } from "react";
-import { searchForShows } from "../api/tvmaze";
-import SearchForm from "../components/SearchForm";
+import React from "react";
+const SearchForm = ({ onSearch }) => {
+  const [searchStr, setSearchStr] = useState("");
+  const [searchOption, setSearchOption] = useState("shows");
+  const onSearchInputChange = (ev) => {
+    setSearchStr(ev.target.value);
+  };
 
-const Home = () => {
-  const [apiData, setApiData] = useState(null);
-
-  const onSearch = async (ev) => {
+  const onRadioChange = (ev) => {
+    setSearchOption(ev.target.value);
+  };
+  const onSubmit = (ev) => {
     ev.preventDefault();
+    onSearch();
   };
-
-  const renderApiData = () => {
-    if (apiData) {
-      return apiData.map((data) => (
-        <div key={data.show.id}>{data.show.name}</div>
-      ));
-    }
-    return null;
-  };
-
   return (
     <div>
-      <SearchForm onSearch={onSearch} />
-      {/* <form onSubmit={onSearch}>
+      <form onSubmit={onSubmit}>
         <input type="text" value={searchStr} onChange={onSearchInputChange} />
         <label>
           shows
@@ -45,9 +39,9 @@ const Home = () => {
           />
         </label>
         <button type="submit">Search</button>
-      </form> */}
-      <div>{renderApiData()}</div>
+      </form>
     </div>
   );
 };
-export default Home;
+
+export default SearchForm;
